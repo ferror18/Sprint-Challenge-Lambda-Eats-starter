@@ -7,7 +7,8 @@ const Form = (props)=>{
         top,
         special,
     } = props.formValues
-    const {onInputChange, onSubmit, price} = props
+    const {onInputChange, onSubmit, price, submitReady} = props
+    const { small, medium, large, xl} = props.prices
     return (
         <form onChange={onInputChange} onSubmit={onSubmit} className='pizzaForm'>
             <h1>Build Your Own Pizza</h1>
@@ -22,13 +23,15 @@ const Form = (props)=>{
             ></input>
             <label>Pizza Size</label>
             <select name="size" className='dropdown'>
-                <option value="small">Small</option>
-                <option value="medium">medium</option>
-                <option value="large">large</option>
-                <option value="extra-large">extra-large</option>
+            <option value="pys">Pick yourt Size</option>
+    <option value="small">{`small - $${small}`}</option>
+                <option className='myOption'value="medium">{`medium - $${medium}`}</option>
+                <option value="large">{`large - $${large}`}</option>
+                <option value="xl">{`xl - $${xl}`}</option>
             </select>
             <label>Choose Toppings:</label>
-            <div className='checklist'>
+            <i><p style={{fontSize:'15px'}}>($2.85 each)</p></i>
+            <div className='checkList'>
             <input type="checkbox" className='top' name="chesse" value="chesse" checked={top.chesse}></input>
             <label>chesse</label>
             <input type="checkbox" className='top' name="sauce" value="sauce"checked={top.sauce}></input>
@@ -44,7 +47,7 @@ const Form = (props)=>{
             </div>
             <label>Any Special Instruccions:</label>
             <input type='textarea' value={special} name='special' className='special'></input>
-            <input type='submit' className='submitbtn' value={`Place Order`}></input>
+            <input disabled={!submitReady} type='submit' className='submitbtn' value={`Place Order - $ ${price}`}></input>
         </form>
     )
 }

@@ -8,10 +8,11 @@ import {
 } from "react-router-dom";
 import Form from "./components/form"
 import axios from "axios"
+import ThankYouPage from "./components/thankyou";
 
 const initialFormValues = {
   name:'',
-  size:'',
+  size:'pys',
   top:{
     chesse: true,
     sauce: true,
@@ -23,15 +24,24 @@ const initialFormValues = {
   },
   special:'',
 }
-let initialPrice = 15.68
+let Prices = {
+  pys: '0',
+  small: 8.65,
+  medium: 11.13,
+  large: 15.98,
+  xl:20.99
+}
 let formattedFormValues = null
+let initialSubmitReady = false
 
 
 
 const App = () => {
   const [formValues, setFormValues] = useState(initialFormValues)
-  const [price, setPrice] = useState(initialPrice)
-  const {history} = useHistory()
+  const [price, setPrice] = useState(Prices.pys)
+  const myhistory = useHistory()
+  const [submitReady, setSubmitReady] = useState(initialSubmitReady)
+  const [prices, setPrices] = useState(Prices)
   const onInputChange = event => {
     if (event.target.type === 'checkbox') {
       setFormValues({...formValues, 
@@ -47,7 +57,7 @@ const App = () => {
     axios.post('https://reqres.in/api/users', formattedFormValues)
    .then(response=>{
      console.log(response.data);
-      history.push('/thankyou')
+     myhistory.push('/thankyou')
    })
    .catch(response=>{
      console.log(`There was an error${response}`);
@@ -58,23 +68,43 @@ const App = () => {
      setFormValues(initialFormValues)
    })
   }
-  // useEffect(()=>{
-  //   setPrice(Object.keys(formValues.top).reduce((acc, cur)=> {if(formValues.cur === true){return acc + 1}}) + initialPrice)
-  //   console.log(`something`);
+  const getPrice = ()=>{
     
-  // }, [formValues])
+  }
+  useEffect(()=>{
+    if (formValues.name !== '' && formValues.size !== "pys" && formValues.name.length > 2) {
+      setSubmitReady(true)
+    }else{
+      setSubmitReady(false)
+    }
+    
+  }, [formValues])
+
+  useEffect(()=>{
+    setPrice(
+      Number(Prices[(formValues.size)] + (((
+        Object.keys(formValues.top).filter((topping)=>{
+          return formValues.top[topping]
+        }).length - 2) * 2.85))
+      ).toFixed(2)
+    )
+  },[formValues])
+
   return (
     <>
     <Route exact path='/'>
     <div className='container'>
-      <h1>Order Pizza Now</h1>
+      <div className='banner'><h1>Order Pizza Now</h1></div>
       <Link to='/pizza'>
       <button>ORDER PIZZA NOW!</button>
       </Link>
     </div>
     </Route>
     <Route path='/pizza'>
-      <Form price={price} onSubmit={onSubmit} formValues={formValues} onInputChange={onInputChange}></Form>
+      <Form prices={prices} submitReady={submitReady} price={price} onSubmit={onSubmit} formValues={formValues} onInputChange={onInputChange}></Form>
+    </Route>
+    <Route path='/thankyou'>
+      <ThankYouPage/>
     </Route>
     </>
   );
