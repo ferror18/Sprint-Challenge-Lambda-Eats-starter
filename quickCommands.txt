@@ -1,0 +1,9 @@
+Set up repo - | git clone &&cd&&cd Desktop &&cat quick\ commands.txt > Lambda\ School/lambda_assignments/Web_applications_1/singlePageAplications/''/quickCommands.txt&&cd Lambda\ School/lambda_assignments/Web_applications_1/singlePageAplications/''&&git checkout -b 'manuel'&&git add '.'&&git commit -m 'initial commit';git push origin manuel;code '.'&&exit |
+
+Other set up repo | git clone &&cd&&cd Desktop &&cat quick\ commands.txt > Lambda\ School/lambda_assignments/Web_applications_1/singlePageAplications/''/quickCommands.txt&&cd Lambda\ School/lambda_assignments/Web_applications_1/singlePageAplications/''&&git fetch&& git reset --hard origin/lecture&& npm install&& npm start |
+
+Reset repo - | git fetch&& git reset --hard origin/lecture&& npm start |
+
+Save & push - | git add .&&git commit -m ''; git push origin manuel |
+
+install axios and styled components | npm install&& npm install --save axios&&npm install --save styled-components&& npm start|
