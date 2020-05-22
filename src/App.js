@@ -3,7 +3,8 @@ import {
   link,
   BrowserRouter as Router,
   Route,
-  Link
+  Link,
+  useHistory
 } from "react-router-dom";
 import Form from "./components/form"
 import axios from "axios"
@@ -22,9 +23,15 @@ const initialFormValues = {
   },
   special:'',
 }
+let initialPrice = 15.68
 let formattedFormValues = null
+
+
+
 const App = () => {
   const [formValues, setFormValues] = useState(initialFormValues)
+  const [price, setPrice] = useState(initialPrice)
+  const {history} = useHistory()
   const onInputChange = event => {
     if (event.target.type === 'checkbox') {
       setFormValues({...formValues, 
@@ -36,18 +43,26 @@ const App = () => {
   }
   const onSubmit = event =>{
     event.preventDefault()
+    formattedFormValues = Object.keys(formValues.top).filter(item=>item)
     axios.post('https://reqres.in/api/users', formattedFormValues)
    .then(response=>{
-     console.log(response);
+     console.log(response.data);
+      history.push('/thankyou')
    })
    .catch(response=>{
-     console.log(response);
+     console.log(`There was an error${response}`);
+     
      
    })
    .finally(()=>{
      setFormValues(initialFormValues)
    })
   }
+  // useEffect(()=>{
+  //   setPrice(Object.keys(formValues.top).reduce((acc, cur)=> {if(formValues.cur === true){return acc + 1}}) + initialPrice)
+  //   console.log(`something`);
+    
+  // }, [formValues])
   return (
     <>
     <Route exact path='/'>
@@ -59,7 +74,7 @@ const App = () => {
     </div>
     </Route>
     <Route path='/pizza'>
-      <Form onSubmit={onSubmit} formValues={formValues} onInputChange={onInputChange}></Form>
+      <Form price={price} onSubmit={onSubmit} formValues={formValues} onInputChange={onInputChange}></Form>
     </Route>
     </>
   );

@@ -23,5 +23,17 @@ code {
   display: flex;
   flex-flow: column nowrap;
   justify-content: space-between;
-  align-items: center;
+  align-items: space-around;
+  box-shadow: 5px 10px #888888;
+  border: 2px solid black;
+  border-radius: 16px;
+  max-width: 60%;
+  margin: 100px auto;
+  padding: 5px;
+  font-size: 40px;
+}
+.pizzaForm input{
+  font-size: 40px;
+  line-height: 40px;
+  margin: 40px 0;
 }

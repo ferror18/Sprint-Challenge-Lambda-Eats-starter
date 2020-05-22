@@ -7,25 +7,27 @@ const Form = (props)=>{
         top,
         special,
     } = props.formValues
-    const {onInputChange, onSubmit} = props
+    const {onInputChange, onSubmit, price} = props
     return (
         <form onChange={onInputChange} onSubmit={onSubmit} className='pizzaForm'>
             <h1>Build Your Own Pizza</h1>
             <label>Who is this Pizza for?</label>
             <input 
-                className='inputname' 
+                className='inputName' 
                 type='text'
                 maxLength='256'
                 minLength='2'
                 name='name'
                 value={name}
             ></input>
-            <select name="size">
+            <label>Pizza Size</label>
+            <select name="size" className='dropdown'>
                 <option value="small">Small</option>
                 <option value="medium">medium</option>
                 <option value="large">large</option>
                 <option value="extra-large">extra-large</option>
             </select>
+            <label>Choose Toppings:</label>
             <div className='checklist'>
             <input type="checkbox" className='top' name="chesse" value="chesse" checked={top.chesse}></input>
             <label>chesse</label>
@@ -40,8 +42,9 @@ const Form = (props)=>{
             <input type="checkbox" className='top' name="bacon" value="bacon"checked={top.bacon}></input>
             <label>bacon</label>
             </div>
-            <input type='textarea' value={special} name='special'></input>
-            <input type='submit' className='submitbtn' value='Order Now'></input>
+            <label>Any Special Instruccions:</label>
+            <input type='textarea' value={special} name='special' className='special'></input>
+            <input type='submit' className='submitbtn' value={`Place Order`}></input>
         </form>
     )
 }
