@@ -6,6 +6,7 @@ const Form = (props)=>{
         size,
         top,
         special,
+        orderPrice
     } = props.formValues
     const {onInputChange, onSubmit, price, submitReady} = props
     const { small, medium, large, xl} = props.prices
@@ -24,7 +25,7 @@ const Form = (props)=>{
             <label>Pizza Size</label>
             <select name="size" className='dropdown'>
             <option value="pys">Pick yourt Size</option>
-    <option value="small">{`small - $${small}`}</option>
+            <option value="small">{`small - $${small}`}</option>
                 <option className='myOption'value="medium">{`medium - $${medium}`}</option>
                 <option value="large">{`large - $${large}`}</option>
                 <option value="xl">{`xl - $${xl}`}</option>

@@ -20,12 +20,12 @@ const initialFormValues = {
     ham: false,
     pineapple: false,
     bacon:false
-    
   },
   special:'',
+  orderPrice: 0
 }
 let Prices = {
-  pys: '0',
+  pys: 0,
   small: 8.65,
   medium: 11.13,
   large: 15.98,
@@ -42,6 +42,7 @@ const App = () => {
   const myhistory = useHistory()
   const [submitReady, setSubmitReady] = useState(initialSubmitReady)
   const [prices, setPrices] = useState(Prices)
+  const [myResponse, setMyResponse] = useState({})
   const onInputChange = event => {
     if (event.target.type === 'checkbox') {
       setFormValues({...formValues, 
@@ -53,11 +54,20 @@ const App = () => {
   }
   const onSubmit = event =>{
     event.preventDefault()
-    formattedFormValues = Object.keys(formValues.top).filter(item=>item)
+
+    formattedFormValues = {...formValues, orderPrice: price}
+    formattedFormValues = {...formValues, top: (
+      Object.keys(formValues.top).filter(item=>{
+        return formValues.top[item] === true
+      })
+    )}
+
+
     axios.post('https://reqres.in/api/users', formattedFormValues)
-   .then(response=>{
+    .then(response=>{
      console.log(response.data);
      myhistory.push('/thankyou')
+     setMyResponse(response.data)
    })
    .catch(response=>{
      console.log(`There was an error${response}`);
@@ -104,7 +114,7 @@ const App = () => {
       <Form prices={prices} submitReady={submitReady} price={price} onSubmit={onSubmit} formValues={formValues} onInputChange={onInputChange}></Form>
     </Route>
     <Route path='/thankyou'>
-      <ThankYouPage/>
+      <ThankYouPage myResponse={myResponse}/>
     </Route>
     </>
   );
